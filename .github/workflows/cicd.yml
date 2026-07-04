@@ -31,10 +31,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    # 5. Build the Dockerfile image on the cloud runner and push it
-    - name: Build and Push Docker Container Image
+     - name: Build and Push Docker Container Image
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/selenium-revision:latest
+        tags: janvesh93/selenium-revision:latest
