@@ -1,11 +1,12 @@
-# Step 1: Change to standalone-chromium to get native Apple Silicon (ARM64) support
-FROM selenium/standalone-chromium:latest
+# Step 1: Use an image that has Maven, Java 17, and Chrome pre-packaged
+FROM markhobson/maven-chrome:jdk-17
 
 # Step 2: Set up the working directory inside the container
 WORKDIR /app
 
-# Step 3: Copy the compiled Maven JAR file from your target folder into the container
-COPY target/selenium-automation-1.0-jar-with-dependencies.jar app.jar
+# Step 3: Copy your pom.xml and source code into the container
+COPY pom.xml .
+COPY src ./src
 
-# Step 4: Run your JUnit/Selenium test runner when the container boots up
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Step 4: Run the standard Maven test command when the container boots up
+ENTRYPOINT ["mvn", "clean", "test"]
