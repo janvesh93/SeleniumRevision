@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
 public class SeleniumTester {
@@ -19,7 +20,15 @@ public class SeleniumTester {
 
 	@BeforeEach
 	public void setup() {
-		driver = new ChromeDriver();
+		
+	    ChromeOptions options = new ChromeOptions();
+	    
+	    // Crucial flags for running Chrome stably inside Docker/Kubernetes
+	    options.addArguments("--headless=new"); // Runs without opening a visual window
+	    options.addArguments("--no-sandbox"); // Bypasses OS security model constraints in Docker
+	    options.addArguments("--disable-dev-shm-usage"); // Overcomes limited resource problems in containers
+	    options.addArguments("--remote-allow-origins=*");
+		driver = new ChromeDriver(options);
 	}
 
 	@Test
