@@ -2,7 +2,7 @@ name: Cloud Docker Compilation Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 jobs:
   run-tests-in-cloud:
