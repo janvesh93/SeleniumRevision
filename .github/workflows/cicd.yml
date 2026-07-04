@@ -23,6 +23,12 @@ jobs:
     # 3. Compile the fat-JAR using the assembly plugin you added to pom.xml
     - name: Build Fat JAR with Maven
       run: mvn clean package -DskipTests
+      
+    - name: Set up QEMU for cross-compilation
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
     # 4. Authenticate the container system with Docker Hub securely
     - name: Log in to Docker Hub
