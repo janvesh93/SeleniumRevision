@@ -2,13 +2,13 @@ name: Cloud Docker Compilation Pipeline
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main", "master" ]  # Triggers on both main and master branch commits
 
 jobs:
   run-tests-in-cloud:
     runs-on: ubuntu-latest
     steps:
-    # 1. Download your Java project files
+    # 1. Download your Java project files from GitHub
     - name: Checkout Repository Code
       uses: actions/checkout@v4
 
@@ -20,20 +20,22 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # 3. Compile the fat-JAR using the assembly plugin you added
+    # 3. Compile the fat-JAR using the assembly plugin you added to pom.xml
     - name: Build Fat JAR with Maven
       run: mvn clean package -DskipTests
 
-    # 4. Authenticate the container system with Docker Hub
+    # 4. Authenticate the container system with Docker Hub securely
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-     - name: Build and Push Docker Container Image
+    # 5. Build the Dockerfile image and push it to Docker Hub in lowercase format
+    - name: Build and Push Docker Container Image
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
-        tags: janvesh93/selenium-revision:latest
+        # The line below forces your username to lowercase to prevent Docker Hub scope errors
+        tags: ${{ customs.DOCKER_USERNAME || format('{0}/selenium-revision:latest', toLower(secrets.DOCKER_USERNAME)) }}
