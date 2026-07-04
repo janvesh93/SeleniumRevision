@@ -1,5 +1,5 @@
-# Step 1: Use an official Selenium base image that comes pre-packaged with Chrome, Drivers, and Java
-FROM selenium/standalone-chrome:latest
+# Step 1: Change to standalone-chromium to get native Apple Silicon (ARM64) support
+FROM selenium/standalone-chromium:latest
 
 # Step 2: Set up the working directory inside the container
 WORKDIR /app
