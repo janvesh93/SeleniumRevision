@@ -37,5 +37,5 @@ jobs:
       with:
         context: .
         push: true
-        # The line below forces your username to lowercase to prevent Docker Hub scope errors
-        tags: ${{ customs.DOCKER_USERNAME || format('{0}/selenium-revision:latest', toLower(secrets.DOCKER_USERNAME)) }}
+        # Hardcoding the lowercase name directly is the safest way to avoid formatting errors
+        tags: janvesh93/selenium-revision:latest
